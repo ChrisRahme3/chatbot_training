@@ -78,5 +78,5 @@ typings/
 
 
 # Custom
-old_secrets/*
+secrets/*
 dotted-marking-327507-277d58834909.json
