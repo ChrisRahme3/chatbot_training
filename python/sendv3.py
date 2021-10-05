@@ -1,22 +1,20 @@
-from apiclient.discovery import build # pip install google-api-python-client
-from concurrent import futures
+from googleapiclient.discovery import build
 from flask import Flask, request
 from httplib2 import Http
-from oauth2client.service_account import ServiceAccountCredentials # pip install oauth2
-import os
+from oauth2client.service_account import ServiceAccountCredentials
 
 
 
 # TODO start
-#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'python/dotted-marking-327507-277d58834909.json'
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'dotted-marking-327507-277d58834909.json'
+GOOGLE_APPLICATION_CREDENTIALS = 'python/dotted-marking-327507-277d58834909.json'
+# GOOGLE_APPLICATION_CREDENTIALS = 'dotted-marking-327507-277d58834909.json'
 
 project_id      = 'dotted-marking-327507'
 topic_id        = 'Testbot'
 subscription_id = 'Testbot'
 
 credentials = ServiceAccountCredentials.from_json_keyfile_name(
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'],
+    GOOGLE_APPLICATION_CREDENTIALS,
     'https://www.googleapis.com/auth/chat.bot'
 ).authorize(Http())
 

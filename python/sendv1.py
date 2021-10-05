@@ -1,4 +1,4 @@
-from apiclient.discovery import build # pip install google-api-python-client
+from googleapiclient.discovery import build # pip install google-api-python-client
 from httplib2 import Http
 from oauth2client.service_account import ServiceAccountCredentials # pip install oauth2
 import os
