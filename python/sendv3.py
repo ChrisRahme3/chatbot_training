@@ -1,10 +1,7 @@
 from apiclient.discovery import build # pip install google-api-python-client
 from concurrent import futures
-import datetime
 from flask import Flask, request
-from google.cloud import pubsub_v1
 from httplib2 import Http
-import json
 from oauth2client.service_account import ServiceAccountCredentials # pip install oauth2
 import os
 
@@ -196,4 +193,5 @@ def on_event():
     return cooked
 
 if __name__ == '__main__':
-    app.run(port=9009, debug=True)
+    print('Started server at http://localhost:9009')
+    app.run(port = 9009, debug = True)
