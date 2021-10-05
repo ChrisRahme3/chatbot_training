@@ -21,7 +21,7 @@ const chat = google.chat({
 
 spaces = {
     'CR': '7gV80IAAAAE', // Chris Rahmé
-    'GS': 'i9uCMIAAAAE', // Ge||ge Salloum
+    'GS': 'i9uCMIAAAAE', // George Salloum
 }
 
 myspace = spaces['CR']
