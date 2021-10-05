@@ -1,9 +1,8 @@
-from apiclient.discovery import build # pip install google-api-python-client
 from concurrent.futures import TimeoutError
 from google.cloud import pubsub_v1 # pip install google google-cloud google-cloud-pubsub
+from googleapiclient.discovery import build # pip install google-api-python-client
 from httplib2 import Http
 import json
-from oauth2client import client
 from oauth2client.service_account import ServiceAccountCredentials # pip install oauth2
 import os
 from time import sleep
