@@ -1,4 +1,4 @@
-const {google} = require('googleapis');
+const {google} = require('googleapis')
 
 
 
@@ -196,9 +196,9 @@ function send(data) {
             parent: 'spaces/7gV80IAAAAE',
             requestBody: body
         }).then((response) => {
-            console.log('Response:', response.data);
+            console.log('Response:', response.data)
         }).catch((error) => {
-            console.error('Error:', error);
+            console.error('Error:', error)
         })
     }
 }
