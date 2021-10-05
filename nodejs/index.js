@@ -3,19 +3,21 @@ const {google} = require('googleapis');
 const chat = google.chat('v1');
 
 const auth = new google.auth.GoogleAuth({
-    // Scopes can be specified either as an array or as a single, space-delimited string.
+    keyFile: './nodejs/dotted-marking-327507-277d58834909.json',
     scopes: ['https://www.googleapis.com/auth/chat.bot'],
 })
+
+console.log('Project', auth.getProjectId())
 
 // Acquire an auth client, and bind it to all future calls
 const authClient = auth.getClient();
 google.options({auth: authClient});
 
-console.log(auth)
-console.log(authClient)
+console.log('auth', auth)
+console.log('authClient', authClient)
 
 // Build response
-const res = chat.dms.messages({
+const res = chat.spaces.messages.create({
   	// Required. Space resource name, in the form "spaces/x". Example: spaces/AAAAMpdlehY
   	parent: 'spaces/7gV80IAAAAE',
 
