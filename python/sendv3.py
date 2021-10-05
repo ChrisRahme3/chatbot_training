@@ -37,7 +37,7 @@ myspace = spaces['CR']
 def itElse(obj, key, alt = None):
     if isinstance(obj, list):
         return obj[key] if (len(obj) >= key + 1) else alt
-    elif isinstance(obj, list):
+    elif isinstance(obj, dict):
         return obj[key] if (key in obj) else alt
     else:
         return alt
@@ -173,6 +173,8 @@ def send(data):
             parent = parent,
             body = body
         ).execute()
+        
+        print(response)
 
 
 
