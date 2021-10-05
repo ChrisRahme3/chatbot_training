@@ -4,21 +4,28 @@ from googleapiclient.discovery import build # pip install google-api-python-clie
 from httplib2 import Http
 import json
 from oauth2client.service_account import ServiceAccountCredentials # pip install oauth2
-import os
 from time import sleep
-from typing import Any, Dict, Text
 
 
 
 # TODO start
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'dotted-marking-327507-277d58834909.json'
+GOOGLE_APPLICATION_CREDENTIALS = 'python/dotted-marking-327507-277d58834909.json'
+# GOOGLE_APPLICATION_CREDENTIALS = 'dotted-marking-327507-277d58834909.json'
 
 project_id      = 'dotted-marking-327507' # https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat?project=dotted-marking-327507
 topic_id        = 'Testbot'
 subscription_id = 'Testbot'
 
-credentials = ServiceAccountCredentials.from_json_keyfile_name(os.environ['GOOGLE_APPLICATION_CREDENTIALS'], 'https://www.googleapis.com/auth/chat.bot')
-chat = build('chat', 'v1', http = credentials.authorize(Http()))
+credentials = ServiceAccountCredentials.from_json_keyfile_name(
+    GOOGLE_APPLICATION_CREDENTIALS,
+    'https://www.googleapis.com/auth/chat.bot'
+).authorize(Http())
+
+chat = build(
+    serviceName = 'chat',
+    version = 'v1',
+    http = credentials
+)
 
 flow_control = pubsub_v1.types.FlowControl(max_messages = 10)
 timeout = 30
@@ -26,10 +33,17 @@ timeout = 30
 
 
 
-def itElse(obj, key: Text, alt: Any):
-    if isinstance(obj, dict):
+def itElse(obj, key, alt = None):
+    if isinstance(obj, list):
+        return obj[key] if (len(obj) >= key + 1) else alt
+    elif isinstance(obj, list):
         return obj[key] if (key in obj) else alt
-    return alt
+    else:
+        return alt
+
+
+def typeof(x):
+    return type(x)
 
 
 
@@ -44,7 +58,7 @@ with pubsub_v1.SubscriberClient() as subscriber:
     print(f'Subscription: {subscription_path}\n')
 
 
-    def respond(text = None, cards = None, space = None, thread = None) -> Dict:
+    def respond(text = None, cards = None, space = None, thread = None):
         parent = space
         body = {}
 
@@ -65,9 +79,6 @@ with pubsub_v1.SubscriberClient() as subscriber:
         ).execute()
 
         return response
-
-    def typeof(x):
-        return type(x)
 
 
     def callback(msg: pubsub_v1.subscriber.message.Message) -> None:
