@@ -1,0 +1,8 @@
+Create a bot:
+https://developers.google.com/chat/how-tos/bots-develop
+https://cloud.google.com/pubsub/docs/quickstart-client-libraries
+
+
+Create a message:
+https://developers.google.com/chat/reference/rest/v1/spaces.messages/create
+https://developers.google.com/chat/reference/rest/v1/spaces.messages#Message

@@ -1,0 +1,21 @@
+{
+    "type":"ADDED_TO_SPACE",
+    "eventTime":"2021-09-30T08:23:16.220912Z",
+    "user":{
+        "name":"users/112917602300614012429",
+        "displayName":"Christopher Rahme",
+        "avatarUrl":"https://lh3.googleusercontent.com/a-/AOh14Gg0JVWgZPE3FQgw7P1H90WSbBtz97KyhdvGTHym=k",
+        "email":"chrahme@dcgroup.com",
+        "type":"HUMAN",
+        "domainId":"4h0q9rl"
+    },
+    "space":{
+        "name":"spaces/AAAAgkZJiN8",
+        "type":"ROOM",
+        "displayName":"Testspace",
+        "threaded":true,
+        "isGuestAllowed":true,
+        "externalUserAllowed":true,
+        "spaceThreadingState":"GROUPED_MESSAGES"
+    }
+}
