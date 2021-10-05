@@ -9,11 +9,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.post('/', (request, result) => {
-    const data = request.body
-    const cooked = cooked(data)
-
-    console.log(data)
-    result.send(cooked)
+    console.log('Got body:', request.body)
+    console.log(request)
+    result.send(request.body)
 })
 
 app.listen(7007, () => {
