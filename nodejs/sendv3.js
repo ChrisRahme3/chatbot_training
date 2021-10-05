@@ -4,6 +4,7 @@ const {google}   = require('googleapis')
 
 
 
+
 // TODO start
 const GOOGLE_APPLICATION_CREDENTIALS = 'nodejs/dotted-marking-327507-277d58834909.json'
 // const GOOGLE_APPLICATION_CREDENTIALS = 'dotted-marking-327507-277d58834909.json'
@@ -18,6 +19,7 @@ const credentials = new google.auth.GoogleAuth({
 })
 
 const chat = google.chat({
+    serviceName: 'chat',
     version: 'v1',
     auth: credentials
 })
@@ -54,9 +56,10 @@ function isKey(obj, key) {
 
 
 
-function cook(message) {
+function tranlate(message) {
     // Header
     header = {}
+
     if (isKey(message, 'title') || isKey(message, 'subtitle') || isKey(message, 'image')) {
         if (isKey(message, 'title')) {
             header['title'] = message['title']
@@ -125,17 +128,13 @@ function cook(message) {
 
         if (image) {
             new_widget = {'image': {}}
-
             new_widget['image']['imageUrl'] = section['image']
-            
             new_widgets.push(new_widget)
         }
 
         if (buttons) {
             new_widget = {'buttons': []}
-
             new_widget['buttons'] = buttons
-
             new_widgets.push(new_widget)
         }
 
@@ -158,7 +157,7 @@ function cook(message) {
 
     // Data
     let data = {
-        'space': "spaces/" + message['recipient']
+        "space": "spaces/" + message['recipient']
     }
 
     if (isKey(message, 'text')) {
@@ -198,7 +197,7 @@ function send(data) {
             parent: parent,
             requestBody: body
         }).then((response) => {
-            // console.log(response.data)
+            // console.log('Response:', response.data)
         }).catch((error) => {
             console.error('Error:', error)
         })
@@ -218,12 +217,12 @@ app.use(bodyParser.json())
 
 app.post('/', (request, result) => {
     const data = request.body
-    const cooked = cook(data)
+    const tranlated = tranlate(data)
 
     console.log(data)
-    send(cooked)
+    send(tranlated)
 
-    result.send(cooked)
+    result.send(tranlated)
 })
 
 app.listen(7007, () => {

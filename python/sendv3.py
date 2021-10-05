@@ -1,5 +1,5 @@
-from googleapiclient.discovery import build
 from flask import Flask, request
+from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -35,19 +35,24 @@ myspace = spaces['CR']
 
 
 def itElse(obj, key, alt = None):
-    if isinstance(obj, dict):
+    if isinstance(obj, list):
+        return obj[key] if (len(obj) >= key + 1) else alt
+    elif isinstance(obj, list):
         return obj[key] if (key in obj) else alt
-    return alt
+    else:
+        return alt
 
 def isKey(obj, key):
-    if isinstance(obj, dict):
-        return key in obj
-    elif isinstance(obj, list):
+    if isinstance(obj, list):
         return len(obj) >= key + 1
+    elif isinstance(obj, dict):
+        return key in obj
+    else:
+        return False
 
 
 
-def cook(message):
+def tranlate(message):
     # Header
     header = {}
 
@@ -110,16 +115,12 @@ def cook(message):
 
         if image:
             new_widget = {'image': {}}
-
             new_widget['image']['imageUrl'] = section['image']
-            
             new_widgets.append(new_widget)
 
         if buttons:
             new_widget = {'buttons': []}
-
             new_widget['buttons'] = buttons
-
             new_widgets.append(new_widget)
 
         new_section['widgets'] = new_widgets
@@ -138,7 +139,7 @@ def cook(message):
 
     # Data
     data = {
-        'space': "spaces/" + message['recipient']
+        "space": "spaces/" + message['recipient']
     }
 
     if isKey(message, 'text'):
@@ -155,7 +156,7 @@ def cook(message):
 
 def send(data):
     parent = itElse(data, 'space', None)
-    body = {}
+    body   = {}
 
     text    = itElse(data, 'text', None)
     cards   = itElse(data, 'cards', None)
@@ -183,12 +184,12 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 def on_event():
     data = request.get_json()
-    cooked = cook(data)
+    tranlated = tranlate(data)
 
     print(data)
-    send(cooked)
+    send(tranlated)
 
-    return cooked
+    return tranlated
 
 if __name__ == '__main__':
     print('Started server at http://localhost:9009')
