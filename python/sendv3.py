@@ -11,14 +11,23 @@ import os
 
 
 # TODO start
+#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'python/dotted-marking-327507-277d58834909.json'
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'dotted-marking-327507-277d58834909.json'
 
 project_id      = 'dotted-marking-327507'
 topic_id        = 'Testbot'
 subscription_id = 'Testbot'
 
-credentials = ServiceAccountCredentials.from_json_keyfile_name(os.environ['GOOGLE_APPLICATION_CREDENTIALS'], 'https://www.googleapis.com/auth/chat.bot')
-chat = build(serviceName = 'chat', version = 'v1', http = credentials.authorize(Http()))
+credentials = ServiceAccountCredentials.from_json_keyfile_name(
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'],
+    'https://www.googleapis.com/auth/chat.bot'
+).authorize(Http())
+
+chat = build(
+    serviceName = 'chat',
+    version = 'v1',
+    http = credentials
+)
 
 spaces = {
     'CR': '7gV80IAAAAE', # Chris Rahmé
@@ -26,9 +35,6 @@ spaces = {
 }
 
 myspace = spaces['CR']
-
-imageUrl = "https://lh5.googleusercontent.com/proxy/6tlNKVdkuog5DOJU17puXqZDKPoR3OnVrXhAyFX2zR9Q13dqofsl0DydZpZDA4SZvYgZDIK58VBLBjHXaH-sv0pVFcNBpx9YXNXHi4uTIseBjQMTZlXoAPIV4T7Sg4xJhOoQP7_B4UHuVpakwPaVe4WFg_BiYjRTjjivvzY4592akLl7Dc75Q4QNxp7CJW1BDgrML4e_rjLtPi9o8k4IpHifEjiaGjpLIsn0h6gaxeTkOVxZ_w3jXEqcteWlaOg7y3db2Hv4EWp2L_g6Ss1tfbGJZ8e2emHTYJWu772bB1KoWZgw6FTy6jI"
-imageUrl = "https://picsum.photos/200"
 # TODO end
 
 
@@ -45,16 +51,6 @@ def isKey(obj, key):
         return len(obj) >= key + 1
 
 
-def get_callback(publish_future: pubsub_v1.publisher.futures.Future, data: str):
-    def callback(publish_future: pubsub_v1.publisher.futures.Future) -> None:
-        print()
-        try:
-            # Wait 60 seconds for the publish call to succeed.
-            print('Result:', publish_future.result(timeout=60))
-        except futures.TimeoutError:
-            print(f"Publishing {data} timed out.")
-
-    return callback
 
 def cook(message):
     # Header
