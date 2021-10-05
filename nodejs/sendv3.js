@@ -44,6 +44,7 @@ function itElse(obj, key, alt = null) {
     }
 }
 
+
 function isKey(obj, key) {
     if (obj instanceof Array) {
         return (obj.length >= key + 1)
@@ -56,7 +57,7 @@ function isKey(obj, key) {
 
 
 
-function tranlate(message) {
+function translate(message) {
     // Header
     header = {}
 
@@ -217,12 +218,12 @@ app.use(bodyParser.json())
 
 app.post('/', (request, result) => {
     const data = request.body
-    const tranlated = tranlate(data)
+    const translated = translate(data)
 
     console.log(data)
-    send(tranlated)
+    send(translated)
 
-    result.send(tranlated)
+    result.send(translated)
 })
 
 app.listen(7007, () => {

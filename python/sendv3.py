@@ -42,6 +42,7 @@ def itElse(obj, key, alt = None):
     else:
         return alt
 
+
 def isKey(obj, key):
     if isinstance(obj, list):
         return len(obj) >= key + 1
@@ -52,7 +53,7 @@ def isKey(obj, key):
 
 
 
-def tranlate(message):
+def translate(message):
     # Header
     header = {}
 
@@ -184,12 +185,12 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 def on_event():
     data = request.get_json()
-    tranlated = tranlate(data)
+    translated = translate(data)
 
     print(data)
-    send(tranlated)
+    send(translated)
 
-    return tranlated
+    return translated
 
 if __name__ == '__main__':
     print('Started server at http://localhost:9009')
