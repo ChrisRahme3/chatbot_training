@@ -1,9 +1,14 @@
 const {google} = require('googleapis');
 
+
+const GOOGLE_APPLICATION_CREDENTIALS = 'nodejs/dotted-marking-327507-277d58834909.json'
+
+
+
 const chat = google.chat('v1');
 
 const auth = new google.auth.GoogleAuth({
-    keyFile: './nodejs/dotted-marking-327507-277d58834909.json',
+    keyFile: GOOGLE_APPLICATION_CREDENTIALS,
     scopes: ['https://www.googleapis.com/auth/chat.bot'],
 })
 
