@@ -78,6 +78,5 @@ typings/
 
 
 # Custom
-nodejs/.examples/*
 old_secrets/*
 dotted-marking-327507-277d58834909.json
