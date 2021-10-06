@@ -55,9 +55,6 @@ topic_path = publisher.topic_path(project_id, topic_id)
 with pubsub_v1.SubscriberClient() as subscriber:
     subscription_path = subscriber.subscription_path(project_id, subscription_id)
 
-    print(f'Topic:        {topic_path}')
-    print(f'Subscription: {subscription_path}\n')
-
 
     def respond(text = None, cards = None, space = None, thread = None):
         parent = space
@@ -173,6 +170,7 @@ with pubsub_v1.SubscriberClient() as subscriber:
 
             print(cards)
             print()
+            
 
         if reply.strip(' \n\t') != '':
             bot_response = respond(text = reply, cards = cards, space = space_name, thread = thread_name)
