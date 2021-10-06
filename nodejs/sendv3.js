@@ -94,26 +94,6 @@ function translate(message) {
 
         // Buttons
         itElse(section, 'buttons', []).forEach((button) => {
-            let url  = itElse(button, 'url', null)
-            
-            let text = itElse(button, 'text', url)
-
-            let new_button = {
-                "textButton": {
-                    "text": text,
-                    "onClick": {
-                        "openLink": {
-                            "url": url
-                        }
-                    }
-                }
-            }
-
-            buttons.push(new_button)
-        })
-
-        /*
-        itElse(section, 'buttons', []).forEach((button) => {
             let new_button = {}
             let on_click   = {}
 
@@ -155,7 +135,7 @@ function translate(message) {
                 }
             }
 
-            let new_button = {
+            new_button = {
                 "textButton": {
                     "text": text,
                     "onClick": {
@@ -168,7 +148,6 @@ function translate(message) {
 
             buttons.push(new_button)
         })
-        */
 
         if (label || content) {
             let new_widget = {'keyValue': {}}
