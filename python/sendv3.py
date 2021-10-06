@@ -84,18 +84,49 @@ def translate(message):
         image   = itElse(section, 'image', None)
         buttons = []
 
+        # Buttons
         for button in itElse(section, 'buttons', []):
-            url  = itElse(button, 'url', '#')
-            text = itElse(button, 'text', url)
+            new_button = {}
+            on_click   = {}
+
+            text   = itElse(button, 'text', 'Click')
+            url    = itElse(button, 'url')
+            action = itElse(button, 'action')
+
+            if url:
+                on_click['openLink'] =  {
+                    "url": url
+                }
+
+            elif action:
+                new_action = {}
+
+                action_name = isKey(action, 'name')
+                action_parameters = isKey(action, 'parameters')
+
+                if action_name:
+                    new_action['actionMethodName'] = action['name']
+
+                    if isinstance(action_parameters, list) and len(action_parameters) > 0:
+                        new_parameters = []
+
+                        for parameter in action_parameters:
+                            if isKey(parameter, 'key') and isKey(parameter, 'value'):
+                                new_parameter = {
+                                    "key": parameter['key'],
+                                    "value": parameter['value']
+                                }
+
+                                new_parameters.append(new_parameter)
+
+                        new_action['parameters'] = new_parameters
+
+                    on_click['action'] = new_action
 
             new_button = {
                 "textButton": {
                     "text": text,
-                    "onClick": {
-                        "openLink": {
-                            "url": url
-                        }
-                    }
+                    "onClick": on_click
                 }
             }
 
