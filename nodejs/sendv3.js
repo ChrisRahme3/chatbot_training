@@ -1,4 +1,3 @@
-const bodyParser = require('body-parser')
 const express    = require('express')
 const {google}   = require('googleapis')
 
@@ -93,8 +92,10 @@ function translate(message) {
         let image   = itElse(section, 'image', null)
         let buttons = []
 
+        // Buttons
         itElse(section, 'buttons', []).forEach((button) => {
-            let url  = itElse(button, 'url', '//')
+            let url  = itElse(button, 'url', null)
+            
             let text = itElse(button, 'text', url)
 
             let new_button = {
@@ -110,6 +111,64 @@ function translate(message) {
 
             buttons.push(new_button)
         })
+
+        /*
+        itElse(section, 'buttons', []).forEach((button) => {
+            let new_button = {}
+            let on_click   = {}
+
+            let text   = itElse(button, 'text', 'Click')
+            let url    = itElse(button, 'url')
+            let action = itElse(button, 'action')
+
+            if (url) {
+                on_click['openLink'] =  {
+                    "url": url
+                }
+            } else if (action) {
+                let new_action = {}
+
+                let action_name = isKey(action, 'name')
+                let action_parameters = isKey(action, 'parameters')
+
+                if (action_name) {
+                    new_action['actionMethodName'] = action['name']
+
+                    if ((action_parameters instanceof Array) && (action_parameters.length > 0)) {
+                        new_parameters = []
+
+                        action_parameters.forEach((parameter) => {
+                            if (isKey(parameter, 'key') && isKey(parameter, 'value')) {
+                                new_parameter = {
+                                    "key": parameter['key'],
+                                    "value": parameter['value']
+                                }
+
+                                new_parameters.push(new_parameter)
+                            }
+                        })
+
+                        new_action['parameters'] = new_parameters
+                    }
+
+                    on_click['action'] = new_action
+                }
+            }
+
+            let new_button = {
+                "textButton": {
+                    "text": text,
+                    "onClick": {
+                        "openLink": {
+                            "url": url
+                        }
+                    }
+                }
+            }
+
+            buttons.push(new_button)
+        })
+        */
 
         if (label || content) {
             let new_widget = {'keyValue': {}}
@@ -213,8 +272,7 @@ function send(data) {
 
 const app = express()
 
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(express.json())
 
 app.post('/', (request, result) => {
     const data = request.body
@@ -223,7 +281,7 @@ app.post('/', (request, result) => {
     console.log(data)
     send(translated)
 
-    result.send(translated)
+    result.json(translated)
 })
 
 app.listen(7007, () => {
