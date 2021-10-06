@@ -4,20 +4,21 @@ from googleapiclient.discovery import build # pip install google-api-python-clie
 from httplib2 import Http
 import json
 from oauth2client.service_account import ServiceAccountCredentials # pip install oauth2
+import os
 from time import sleep
 
 
 
 # TODO start
-GOOGLE_APPLICATION_CREDENTIALS = 'python/dotted-marking-327507-277d58834909.json'
-# GOOGLE_APPLICATION_CREDENTIALS = 'dotted-marking-327507-277d58834909.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'python/dotted-marking-327507-277d58834909.json'
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'dotted-marking-327507-277d58834909.json'
 
 project_id      = 'dotted-marking-327507' # https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat?project=dotted-marking-327507
 topic_id        = 'Testbot'
 subscription_id = 'Testbot'
 
 credentials = ServiceAccountCredentials.from_json_keyfile_name(
-    GOOGLE_APPLICATION_CREDENTIALS,
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'],
     'https://www.googleapis.com/auth/chat.bot'
 ).authorize(Http())
 
@@ -36,7 +37,7 @@ timeout = 30
 def itElse(obj, key, alt = None):
     if isinstance(obj, list):
         return obj[key] if (len(obj) >= key + 1) else alt
-    elif isinstance(obj, list):
+    elif isinstance(obj, dict):
         return obj[key] if (key in obj) else alt
     else:
         return alt
@@ -128,14 +129,14 @@ with pubsub_v1.SubscriberClient() as subscriber:
         reply = ''
         cards = []
 
-        if type == 'ADDED_TO_SPACE':
+        if type.upper() == 'ADDED_TO_SPACE':
             if space_single:
                 reply = f'Hey {user_display.split()[0]}, thanks for adding me!'
 
             else:
                 reply = 'Hey everyone, thanks for adding me!'
 
-        elif type == 'MESSAGE':
+        elif type.upper() == 'MESSAGE':
             if message_text.strip(' \n\t') == '@TestbotDC21':
                 if not message_attachment_type:
                     if space_single:
@@ -160,13 +161,13 @@ with pubsub_v1.SubscriberClient() as subscriber:
                 else:
                     reply += f'_<{user_name}> sent an attachment of type:_\n{message_attachment_type}'
 
-        elif type == 'CARD_CLICKED':
+        elif type.upper() == 'CARD_CLICKED':
             reply = ''
 
-        elif type == 'REMOVED_FROM_SPACE':
+        elif type.upper() == 'REMOVED_FROM_SPACE':
             reply = ''
 
-        elif type == 'CUSTOM':
+        elif type.upper() == 'CUSTOM':
             reply = '*Custom message recieved:*\n' + message_text
             cards = message_cards
 
