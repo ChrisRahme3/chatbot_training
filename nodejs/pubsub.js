@@ -8,7 +8,6 @@ const request = require('request');
 // TODO start
 const GOOGLE_APPLICATION_CREDENTIALS = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
-
 project_id      = 'dotted-marking-327507'
 topic_id        = 'Testbot'
 subscription_id = 'Testbot'
