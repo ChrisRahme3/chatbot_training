@@ -1,4 +1,4 @@
-# Node/Python Google Chatbot Prototype 
+# Node/Python Google Chatbot Prototype
 
 Simple Google Chat API chatbot made with Node and Python.
 
